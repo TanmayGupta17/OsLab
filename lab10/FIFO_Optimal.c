@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 int findNextUse(int page[], int p, int currentPos);
 int findOptimal(int page[], int f, int p, int frame[], int nextUse[], int currentPos);
 
