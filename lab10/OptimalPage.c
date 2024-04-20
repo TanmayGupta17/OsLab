@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <limits.h>
 
-int findLRU(int pages[], int frames[], int p, int f, int counter)
+int findOptimal(int pages[], int frames[], int p, int f, int counter)
 {
     int arr[f];
-    int count = 0;
-    for (int i = 0; i < f; i++)
+    int i = 0;
+    while (i < f)
     {
-        for (int j = counter - 1; j >= 0; j--)
+        int count = 0;
+        for (int j = counter; j < p; j++)
         {
             if (frames[i] == pages[j])
             {
@@ -17,25 +18,28 @@ int findLRU(int pages[], int frames[], int p, int f, int counter)
             count++;
         }
         arr[i] = count;
+        i++;
     }
-    int least = INT_MIN;
+    int furthest = INT_MIN;
     int t;
-    for (int i = 0; i < f; i++)
+    for (int j = 0; j < f; j++)
     {
-        if (least < arr[i])
+        if (furthest < arr[j])
         {
-            least = arr[i];
-            t = i;
+            furthest = arr[j];
+            t = j;
         }
     }
+
     return t;
 }
 
-void LRU(int pages[], int frames[], int p, int f)
+void Optimal(int pages[], int frames[], int p, int f)
 {
+    int rear = -1;
+    int counter = 0;
     int pagehit = 0;
     int pagefault = 0;
-    int counter = 0;
     while (counter < p)
     {
         int flag = 0;
@@ -51,19 +55,19 @@ void LRU(int pages[], int frames[], int p, int f)
         if (flag == 0)
         {
             pagefault++;
-            if (counter < f)
+            if (rear < f - 1)
             {
-                frames[counter] = pages[counter];
+                frames[++rear] = pages[counter];
             }
             else
             {
-                int replica = findLRU(pages, frames, p, f, counter);
+                int replica = findOptimal(pages, frames, p, f, counter);
                 frames[replica] = pages[counter];
             }
         }
         counter++;
     }
-    printf("No of pagefaults: %d", pagefault);
+    printf("No of pagfaults: %d", pagefault);
 }
 
 int main()
@@ -75,11 +79,11 @@ int main()
     scanf("%d", &f);
     int pages[p];
     int frames[f];
-    printf("Enter pages: ");
+    printf("Enter pages:");
     for (int i = 0; i < p; i++)
     {
         scanf("%d", &pages[i]);
     }
-    LRU(pages, frames, p, f);
+    Optimal(pages, frames, p, f);
     return 0;
 }
