@@ -7,18 +7,11 @@ void FCFS(int queue[], int ht, int tt, int n)
     int seek = 0;
     for (int i = 0; i < n; i++)
     {
-        if (i == 0)
-        {
-            seek += abs(ht - queue[i]);
-        }
-        else
-        {
-            seek += abs(queue[i - 1] - queue[i]);
-        }
+        seek += abs(ht - queue[i]);
+        ht = queue[i];
     }
     printf("FCFS: %d", seek);
 }
-
 void SSTF(int queue[], int ht, int tt, int n)
 {
     int seek = 0;
