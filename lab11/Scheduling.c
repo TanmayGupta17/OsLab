@@ -81,17 +81,17 @@ void SCAN(int queue[], int ht, int tt, int n, char dir)
         {
             seek += abs(ht - queue[i]);
             ht = queue[i];
-            visited[i] = 0;
+            visited[i] = 1;
         }
         seek += abs(ht - tt);
         ht = tt;
-        for (int i = n - 1; i >= 0; i++)
+        for (int i = n - 1; i >= 0; i--)
         {
             if (visited[i] == 0)
             {
                 seek += abs(ht - queue[i]);
                 ht = queue[i];
-                visited[i] = 0;
+                visited[i] = 1;
             }
         }
     }
